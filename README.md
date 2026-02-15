@@ -25,9 +25,12 @@ Estructura actual y objetivo de organización:
 
 ```text
 .
-├── docs/
+├── docs/.                 # presentación oficial del módulo y enunciado de práctica
 │   ├── React Avanzado.pdf
 │   └── Práctica Next.js Marketplace de Anuncios.pdf
+├── setup-db/               # entorno local de BD (Docker + PostgreSQL) y guía Prisma
+│   ├── docker-compose.yml
+│   └── README.md
 └── src/                    # contenido de clases en curso
 ```
 
