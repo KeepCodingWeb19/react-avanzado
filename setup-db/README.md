@@ -49,8 +49,9 @@ Nota: este proyecto lee `DATABASE_URL` desde `prisma.config.ts` y también desde
 Si quieres gestionar la base de datos con un cliente gráfico desde Visual Studio Code, puedes usar la extensión "PostgreSQL" de Database Client. Para ello:
 
 1. Instala la extensión "PostgreSQL" de Database Client con código `cweijan.vscode-postgresql-client2`.
-2. Añade la conexión utilizando el Connection String anterior (`DATABASE_URL`).
-3. Conéctate y explora la base de datos.
+2. Instala también la extensión Prisma para VSCode (`Prisma.prisma`).
+3. Añade la conexión utilizando el Connection String anterior (`DATABASE_URL`).
+4. Conéctate y explora la base de datos.
 
 ## 4) Instalar dependencias (si aún no lo has hecho)
 
