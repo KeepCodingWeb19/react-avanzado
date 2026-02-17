@@ -1,5 +1,7 @@
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
+import ClientShell from "./client-shell";
+import UserProfile from "./user-profile";
 
 export default function Sidebar() {
   return (
@@ -17,6 +19,9 @@ export default function Sidebar() {
         </Link>
       </nav>
       <ThemeToggle />
+      <ClientShell>
+        <UserProfile />
+      </ClientShell>
     </aside>
   );
 }
