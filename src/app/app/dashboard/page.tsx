@@ -1,7 +1,9 @@
+import ProjectForm from "@/components/forms/project-form";
 import ProjectCard from "@/components/project-card";
 import { getProjects } from "@/lib/projects";
+import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const projects = await getProjects();
@@ -13,6 +15,12 @@ export default async function DashboardPage() {
         Bienvenido al dashboard. Si ves esto, es porque tienes la cookie de
         autenticación.
       </p>
+
+      <Link href="/dashboard/form" className="text-blue-500 hover:underline">
+        Ir al formulario prueba
+      </Link>
+
+      <ProjectForm />
 
       <div className="mt-6">
         {projects.map((project) => (
