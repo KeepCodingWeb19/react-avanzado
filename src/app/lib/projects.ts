@@ -10,8 +10,6 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function createProject(title: string): Promise<Project> {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   return prisma.project.create({
     data: {
       title,
