@@ -2,12 +2,18 @@ import { Project } from "@/prisma/generated/client/browser";
 import prisma from "./prisma";
 import { ProjectDto } from "./projects.types";
 
-export async function getProjects(): Promise<Project[]> {
-  console.log("Obteniendo proyectos...");
+interface ProjectFilter {
+  order: "asc" | "desc";
+}
+
+export async function getProjects({
+  order,
+}: ProjectFilter): Promise<Project[]> {
+  console.log(`[getProjects] Obteniendo proyectos con orden: ${order}`);
 
   return prisma.project.findMany({
     orderBy: {
-      createdAt: "desc",
+      createdAt: order,
     },
   });
 }
