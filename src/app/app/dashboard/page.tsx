@@ -1,4 +1,4 @@
-import ProjectForm from "@/components/forms/project-form";
+import ProjectOptimisticForm from "@/components/forms/project-optimistic-form";
 import ProjectCard from "@/components/project-card";
 import { getProjects } from "@/lib/projects";
 import Link from "next/link";
@@ -20,12 +20,13 @@ export default async function DashboardPage() {
         Ir al formulario prueba
       </Link>
 
-      <ProjectForm />
+      <ProjectOptimisticForm />
 
       <div className="mt-6">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
+            id={project.id}
             title={project.title}
             description={project.description}
             createdAt={project.createdAt}

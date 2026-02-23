@@ -1,12 +1,15 @@
 "use server";
 
 import { createProject } from "@/lib/projects";
+import { createProjectSchema } from "@/schemas/project.schema";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
-interface ProjectActionResult {
+export interface ProjectActionResult {
   success: boolean;
   message: string;
   requestId: number;
+  errors?: Record<string, string[]>;
 }
 
 export async function createProjectAction(
@@ -25,6 +28,65 @@ export async function createProjectAction(
 
   try {
     const newProject = await createProject(title);
+    console.log("Nuevo proyecto creado:", newProject);
+
+    revalidatePath("/dashboard");
+
+    return {
+      success: true,
+      message: "Proyecto creado exitosamente",
+      requestId: Date.now(),
+    };
+  } catch {
+    console.error("[createProjectAction] Error al crear el proyecto");
+    return {
+      success: false,
+      message: "Error al crear el proyecto",
+      requestId: Date.now(),
+    };
+  }
+}
+
+function getFieldErrorsFromTree(
+  error: z.ZodError<z.infer<typeof createProjectSchema>>,
+): Record<string, string[]> {
+  const tree = z.treeifyError(error);
+  const fieldErrors: Record<string, string[]> = {};
+
+  for (const [fieldName, node] of Object.entries(tree.properties ?? {})) {
+    if (node?.errors.length) {
+      fieldErrors[fieldName] = node.errors;
+    }
+  }
+
+  return fieldErrors;
+}
+
+export async function createProjectOptimisticAction(
+  _previousState: ProjectActionResult,
+  formData: FormData,
+): Promise<ProjectActionResult> {
+  const validatedFields = createProjectSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message:
+        "Hay errores en el formulario. Por favor corrígelos e intenta de nuevo.",
+      requestId: Date.now(),
+      errors: getFieldErrorsFromTree(validatedFields.error),
+    };
+  }
+
+  try {
+    const newProjectData = validatedFields.data;
+    const newProject = await createProject(
+      newProjectData.title,
+      newProjectData.description,
+    );
     console.log("Nuevo proyecto creado:", newProject);
 
     revalidatePath("/dashboard");

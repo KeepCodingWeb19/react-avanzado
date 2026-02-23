@@ -9,11 +9,22 @@ export async function getProjects(): Promise<Project[]> {
   });
 }
 
-export async function createProject(title: string): Promise<Project> {
+export async function getProjectById(id: number): Promise<Project | null> {
+  return prisma.project.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+export async function createProject(
+  title: string,
+  description?: string,
+): Promise<Project> {
   return prisma.project.create({
     data: {
       title,
-      description: "autogenerado",
+      description: description || "autogenerado",
     },
   });
 }
