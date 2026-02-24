@@ -1,6 +1,7 @@
 "use server";
 
-import { createProject } from "@/lib/projects";
+import { getSession } from "@/lib/auth";
+import { createProject, deleteProject } from "@/lib/projects";
 import { createProjectSchema } from "@/schemas/project.schema";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -104,4 +105,24 @@ export async function createProjectOptimisticAction(
       requestId: Date.now(),
     };
   }
+}
+
+export async function deleteProjectAction(formData: FormData) {
+  const projectId = Number(formData.get("projectId"));
+
+  // Verificar sesión
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error("Usuario no logueado")
+  }
+
+  // Verificar que pertenece al usuario
+  const success = await deleteProject(projectId, session.userId);
+
+  if (!success) {
+    throw new Error("No tienes permisos para borrar el proyecto");
+  }
+
+  revalidatePath('/dashboard');
 }

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import DeleteProjectButton from "./buttons/delete-project-button";
 
 interface ProjectCardProps {
   id: number;
   title: string;
   description: string;
+  userName: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,7 +27,7 @@ export default function ProjectCard(project: ProjectCardProps) {
         <h2 className="text-xl font-bold">{project.title}</h2>
         <p className="text-gray-300">{project.description}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Creado: {formatDate(project.createdAt)} | Actualizado:{" "}
+          Owner: {project.userName ?? 'N/A'} | Creado: {formatDate(project.createdAt)} | Actualizado:{" "}
           {formatDate(project.updatedAt)}
         </p>
       </article>
@@ -35,6 +37,7 @@ export default function ProjectCard(project: ProjectCardProps) {
       >
         Ver detalles
       </Link>
+      <DeleteProjectButton projectId={project.id} />
     </div>
   );
 }

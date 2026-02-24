@@ -55,3 +55,18 @@ export async function incrementProjectLikes(
 
   return updated.likes;
 }
+
+export async function deleteProject(projectId: number, userId: string): Promise<boolean> {
+  const projectDb = await prisma.project.findUnique({
+    where: { id: projectId, userId: userId },
+    select: { id: true }
+  })
+
+  if (!projectDb) {
+    return false;
+  }
+
+  await prisma.project.delete({ where: { id: projectDb.id } })
+
+  return true;
+}
