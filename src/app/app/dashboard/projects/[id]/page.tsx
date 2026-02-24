@@ -1,22 +1,23 @@
 import OptimisticLikeButton from "@/components/buttons/optimistic-like-button";
-import { getProjectById, getProjects } from "@/lib/projects";
+import { getProjectById } from "@/lib/projects";
 import { ProjectDto } from "@/lib/projects.types";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-export const dynamic = "force-static";
+// export const dynamic = "force-static";
 
 type ProjectDetailParams = Promise<{
   id: string;
 }>;
 
 // Se ejecuta en build time
-export async function generateStaticParams() {
-  const projects = await getProjects({ order: "asc" });
+// export async function generateStaticParams() {
+//   const projects = await getProjects({ order: "asc" });
 
-  return projects.map((project) => ({
-    id: project.id.toString(),
-  }));
-}
+//   return projects.map((project) => ({
+//     id: project.id.toString(),
+//   }));
+// }
 
 export async function generateMetadata(props: {
   params: ProjectDetailParams;
@@ -48,7 +49,7 @@ export default async function ProjectDetail(props: {
   }
 
   if (!project) {
-    return <p>Proyecto no encontrado</p>;
+    return notFound();
   }
 
   return (
