@@ -4,6 +4,7 @@ import z from "zod";
 import { LoginState } from "./types";
 import { createSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { getUserByEmail } from "@/lib/users";
 
 const loginSchema = z.object({
   email: z.email("Email no es válido"),
@@ -25,10 +26,9 @@ function getFieldErrorsFromTree(
   return fieldErrors;
 }
 
-const MOCK_USERS = [
-  { id: "123", email: "pepe@google.com", password: "1234" },
-  { id: "124", email: "jose@google.com", password: "1234" },
-]
+function hashPassword(plainPassword: string) {
+  return plainPassword;
+}
 
 export async function loginAction(_prevState: LoginState, formData: FormData): Promise<LoginState> {
   const emailInput = String(formData.get("email"));
@@ -49,12 +49,24 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
   }
 
   const email = parsed.data.email.toLowerCase();
-  const password = parsed.data.password;
 
-  // Simular llamada a la BBDD
-  const user = MOCK_USERS.find(x => x.email === email && x.password === password);
+  const user = await getUserByEmail(email);
 
   if (!user) {
+    return {
+      success: false,
+      message: "Credenciales incorrectas",
+      errors: {},
+      values: { email: emailInput }
+    }
+  }
+
+  const password = parsed.data.password;
+
+  // Aquí deberíamos hashear la contraseña
+  const passwordMatches = hashPassword(password);
+
+  if (!passwordMatches) {
     return {
       success: false,
       message: "Credenciales incorrectas",
