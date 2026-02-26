@@ -298,7 +298,7 @@ export type ProjectCreateInput = {
   likes?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutProjectInput
+  user?: Prisma.UserCreateNestedOneWithoutProjectsInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -317,7 +317,7 @@ export type ProjectUpdateInput = {
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutProjectNestedInput
+  user?: Prisma.UserUpdateOneWithoutProjectsNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {

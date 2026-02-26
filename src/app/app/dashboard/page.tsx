@@ -27,7 +27,7 @@ export default async function DashboardPage(props: {
   const projects = await getProjects({ order });
 
   return (
-    <div>
+    <div className="w-2/3">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <p>
         Bienvenido al dashboard. Si ves esto, es porque tienes la cookie de
