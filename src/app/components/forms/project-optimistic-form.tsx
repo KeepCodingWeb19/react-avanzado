@@ -20,10 +20,7 @@ export default function ProjectOptimisticForm() {
   );
 
   return (
-    <form
-      action={formAction}
-      className="flex flex-col gap-3 border p-4 rounded"
-    >
+    <form action={formAction} className="flex flex-col gap-3 p-4 rounded">
       <label htmlFor="project-title" className="block text-sm font-semibold">
         Nuevo Proyecto
       </label>

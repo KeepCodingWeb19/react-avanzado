@@ -1,21 +1,57 @@
 import { Project } from "@/prisma/generated/client/browser";
 import prisma from "./prisma";
-import { ProjectDto } from "./projects.types";
+import { ProjectDto, ProjectsResultDto } from "./projects.types";
 
 interface ProjectFilter {
+  query: string;
   order: "asc" | "desc";
+  page: number;
+  pageSize: number;
+}
+
+function getWhereClause(query: string) {
+  if (!query) {
+    return {};
+  }
+
+  return {
+    title: {
+      contains: query,
+      mode: "insensitive" as const,
+    },
+  };
 }
 
 export async function getProjects({
+  query,
   order,
-}: ProjectFilter): Promise<Project[]> {
-  console.log(`[getProjects] Obteniendo proyectos con orden: ${order}`);
+  page,
+  pageSize,
+}: ProjectFilter): Promise<ProjectsResultDto> {
+  const safePage = Number.isNaN(page) || page < 1 ? 1 : page;
+  const safePageSize = Number.isNaN(pageSize) || pageSize < 1 ? 5 : pageSize;
 
-  return prisma.project.findMany({
+  const whereClause = getWhereClause(query);
+  const totalProjects = await prisma.project.count({ where: whereClause });
+  const totalPages = Math.max(1, Math.ceil(totalProjects / safePageSize));
+
+  const currentPage = Math.min(safePage, totalPages);
+
+  const items = await prisma.project.findMany({
+    where: whereClause,
+    skip: (currentPage - 1) * safePageSize,
+    take: safePageSize,
     orderBy: {
       createdAt: order,
     },
   });
+
+  return {
+    items,
+    totalCount: totalProjects,
+    totalPages,
+    currentPage,
+  };
 }
 
 export async function getProjectById(id: number): Promise<ProjectDto | null> {
@@ -56,17 +92,20 @@ export async function incrementProjectLikes(
   return updated.likes;
 }
 
-export async function deleteProject(projectId: number, userId: string): Promise<boolean> {
+export async function deleteProject(
+  projectId: number,
+  userId: string,
+): Promise<boolean> {
   const projectDb = await prisma.project.findUnique({
     where: { id: projectId, userId: userId },
-    select: { id: true }
-  })
+    select: { id: true },
+  });
 
   if (!projectDb) {
     return false;
   }
 
-  await prisma.project.delete({ where: { id: projectDb.id } })
+  await prisma.project.delete({ where: { id: projectDb.id } });
 
   return true;
 }
