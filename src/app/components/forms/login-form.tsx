@@ -23,7 +23,10 @@ export default function LoginForm({ from }: LoginFormProps) {
   const safeState = state ?? initialLoginState;
 
   return (
-    <form action={formAction} className="rounded-lg border border-border bg-card p-6 space-y-4">
+    <form
+      action={formAction}
+      className="rounded-lg border border-border bg-card p-6 space-y-4"
+    >
       {/* <input type="hidden" name="from" value={from} /> */}
 
       <div className="space-y-1">
@@ -39,7 +42,9 @@ export default function LoginForm({ from }: LoginFormProps) {
           className={getInputClassName(Boolean(safeState.errors.email?.length))}
         />
         {safeState.errors.email?.[0] ? (
-          <p className="text-xs text-red-600 dark:text-red-400">{safeState.errors.email[0]}</p>
+          <p className="text-xs text-red-600 dark:text-red-400">
+            {safeState.errors.email[0]}
+          </p>
         ) : null}
       </div>
 
@@ -54,7 +59,9 @@ export default function LoginForm({ from }: LoginFormProps) {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="1234"
-          className={getInputClassName(Boolean(safeState.errors.password?.length))}
+          className={getInputClassName(
+            Boolean(safeState.errors.password?.length),
+          )}
         />
         {safeState.errors.password?.[0] ? (
           <p className="text-xs text-red-600 dark:text-red-400">
@@ -67,11 +74,13 @@ export default function LoginForm({ from }: LoginFormProps) {
         type="submit"
         className="rounded bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
       >
-        Iniciar sesion
+        Iniciar sesión
       </button>
 
       {safeState.message ? (
-        <p className="text-sm text-red-600 dark:text-red-400">{safeState.message}</p>
+        <p className="text-sm text-red-600 dark:text-red-400">
+          {safeState.message}
+        </p>
       ) : null}
     </form>
   );
