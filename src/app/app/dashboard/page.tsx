@@ -71,6 +71,7 @@ export default async function DashboardPage(props: {
             id={project.id}
             title={project.title}
             description={project.description}
+            imageUrl={project.imageUrl}
             userName={project.userId}
             createdAt={project.createdAt}
             updatedAt={project.updatedAt}

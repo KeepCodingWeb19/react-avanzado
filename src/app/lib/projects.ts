@@ -9,6 +9,13 @@ interface ProjectFilter {
   pageSize: number;
 }
 
+interface CreateProjectInput {
+  title: string;
+  description?: string;
+  imageUrl?: string | null;
+  userId?: string;
+}
+
 function getWhereClause(query: string) {
   if (!query) {
     return {};
@@ -63,13 +70,14 @@ export async function getProjectById(id: number): Promise<ProjectDto | null> {
 }
 
 export async function createProject(
-  title: string,
-  description?: string,
-): Promise<Project> {
+  input: CreateProjectInput,
+): Promise<ProjectDto> {
   return prisma.project.create({
     data: {
-      title,
-      description: description || "autogenerado",
+      title: input.title,
+      description: input.description || "autogenerado",
+      imageUrl: input.imageUrl,
+      userId: input.userId,
     },
   });
 }

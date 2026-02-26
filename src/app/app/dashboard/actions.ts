@@ -2,6 +2,7 @@
 
 import { getSession } from "@/lib/auth";
 import { createProject, deleteProject } from "@/lib/projects";
+import { saveImageInPublic } from "@/lib/uploads";
 import { createProjectSchema } from "@/schemas/project.schema";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -28,7 +29,7 @@ export async function createProjectAction(
   }
 
   try {
-    const newProject = await createProject(title);
+    const newProject = await createProject({ title });
     console.log("Nuevo proyecto creado:", newProject);
 
     revalidatePath("/dashboard");
@@ -63,6 +64,19 @@ function getFieldErrorsFromTree(
   return fieldErrors;
 }
 
+function isValidImage(image: File | null) {
+  if (!image) {
+    return false;
+  }
+
+  const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+  if (!validTypes.includes(image.type)) {
+    return false;
+  }
+
+  return true;
+}
+
 export async function createProjectOptimisticAction(
   _previousState: ProjectActionResult,
   formData: FormData,
@@ -82,12 +96,36 @@ export async function createProjectOptimisticAction(
     };
   }
 
+  const image = formData.get("image") as File;
+  const isValid = isValidImage(image);
+  if (!isValid) {
+    return {
+      success: false,
+      message: "El archivo debe ser una imagen",
+      requestId: Date.now(),
+    };
+  }
+
+  const imageUrl = await saveImageInPublic(image);
+
   try {
     const newProjectData = validatedFields.data;
-    const newProject = await createProject(
-      newProjectData.title,
-      newProjectData.description,
-    );
+    const session = await getSession();
+
+    if (!session) {
+      return {
+        success: false,
+        message: "Usuario no logueado",
+        requestId: Date.now(),
+      };
+    }
+
+    const newProject = await createProject({
+      title: newProjectData.title,
+      description: newProjectData.description,
+      imageUrl,
+      userId: session.userId,
+    });
     console.log("Nuevo proyecto creado:", newProject);
 
     revalidatePath("/dashboard");
@@ -97,8 +135,8 @@ export async function createProjectOptimisticAction(
       message: "Proyecto creado exitosamente",
       requestId: Date.now(),
     };
-  } catch {
-    console.error("[createProjectAction] Error al crear el proyecto");
+  } catch (error) {
+    console.error("[createProjectAction] Error al crear el proyecto", error);
     return {
       success: false,
       message: "Error al crear el proyecto",
@@ -114,7 +152,7 @@ export async function deleteProjectAction(formData: FormData) {
   const session = await getSession();
 
   if (!session) {
-    throw new Error("Usuario no logueado")
+    throw new Error("Usuario no logueado");
   }
 
   // Verificar que pertenece al usuario
@@ -124,5 +162,5 @@ export async function deleteProjectAction(formData: FormData) {
     throw new Error("No tienes permisos para borrar el proyecto");
   }
 
-  revalidatePath('/dashboard');
+  revalidatePath("/dashboard");
 }

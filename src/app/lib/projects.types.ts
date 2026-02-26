@@ -2,6 +2,7 @@ export interface ProjectDto {
   id: number;
   title: string;
   description: string;
+  imageUrl: string | null;
   likes: number;
   userId: string | null;
   createdAt: Date;
