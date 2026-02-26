@@ -40,6 +40,7 @@ export type ProjectMinAggregateOutputType = {
   id: number | null
   title: string | null
   description: string | null
+  imageUrl: string | null
   likes: number | null
   userId: string | null
   createdAt: Date | null
@@ -50,6 +51,7 @@ export type ProjectMaxAggregateOutputType = {
   id: number | null
   title: string | null
   description: string | null
+  imageUrl: string | null
   likes: number | null
   userId: string | null
   createdAt: Date | null
@@ -60,6 +62,7 @@ export type ProjectCountAggregateOutputType = {
   id: number
   title: number
   description: number
+  imageUrl: number
   likes: number
   userId: number
   createdAt: number
@@ -82,6 +85,7 @@ export type ProjectMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  imageUrl?: true
   likes?: true
   userId?: true
   createdAt?: true
@@ -92,6 +96,7 @@ export type ProjectMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  imageUrl?: true
   likes?: true
   userId?: true
   createdAt?: true
@@ -102,6 +107,7 @@ export type ProjectCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  imageUrl?: true
   likes?: true
   userId?: true
   createdAt?: true
@@ -199,6 +205,7 @@ export type ProjectGroupByOutputType = {
   id: number
   title: string
   description: string
+  imageUrl: string | null
   likes: number
   userId: string | null
   createdAt: Date
@@ -232,6 +239,7 @@ export type ProjectWhereInput = {
   id?: Prisma.IntFilter<"Project"> | number
   title?: Prisma.StringFilter<"Project"> | string
   description?: Prisma.StringFilter<"Project"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   likes?: Prisma.IntFilter<"Project"> | number
   userId?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -243,6 +251,7 @@ export type ProjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   likes?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -257,6 +266,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   title?: Prisma.StringFilter<"Project"> | string
   description?: Prisma.StringFilter<"Project"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   likes?: Prisma.IntFilter<"Project"> | number
   userId?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -268,6 +278,7 @@ export type ProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   likes?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -286,6 +297,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Project"> | number
   title?: Prisma.StringWithAggregatesFilter<"Project"> | string
   description?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   likes?: Prisma.IntWithAggregatesFilter<"Project"> | number
   userId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
@@ -295,6 +307,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
 export type ProjectCreateInput = {
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -305,6 +318,7 @@ export type ProjectUncheckedCreateInput = {
   id?: number
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   userId?: string | null
   createdAt?: Date | string
@@ -314,6 +328,7 @@ export type ProjectUncheckedCreateInput = {
 export type ProjectUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -324,6 +339,7 @@ export type ProjectUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,6 +350,7 @@ export type ProjectCreateManyInput = {
   id?: number
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   userId?: string | null
   createdAt?: Date | string
@@ -343,6 +360,7 @@ export type ProjectCreateManyInput = {
 export type ProjectUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,6 +370,7 @@ export type ProjectUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,6 +381,7 @@ export type ProjectCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   likes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -377,6 +397,7 @@ export type ProjectMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   likes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -387,6 +408,7 @@ export type ProjectMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   likes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -412,6 +434,10 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -422,10 +448,6 @@ export type IntFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type ProjectCreateNestedManyWithoutUserInput = {
@@ -473,6 +495,7 @@ export type ProjectUncheckedUpdateManyWithoutUserNestedInput = {
 export type ProjectCreateWithoutUserInput = {
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -482,6 +505,7 @@ export type ProjectUncheckedCreateWithoutUserInput = {
   id?: number
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -520,6 +544,7 @@ export type ProjectScalarWhereInput = {
   id?: Prisma.IntFilter<"Project"> | number
   title?: Prisma.StringFilter<"Project"> | string
   description?: Prisma.StringFilter<"Project"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   likes?: Prisma.IntFilter<"Project"> | number
   userId?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -530,6 +555,7 @@ export type ProjectCreateManyUserInput = {
   id?: number
   title: string
   description: string
+  imageUrl?: string | null
   likes?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -538,6 +564,7 @@ export type ProjectCreateManyUserInput = {
 export type ProjectUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -547,6 +574,7 @@ export type ProjectUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -556,6 +584,7 @@ export type ProjectUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -567,6 +596,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   title?: boolean
   description?: boolean
+  imageUrl?: boolean
   likes?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -578,6 +608,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   title?: boolean
   description?: boolean
+  imageUrl?: boolean
   likes?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -589,6 +620,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   title?: boolean
   description?: boolean
+  imageUrl?: boolean
   likes?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -600,13 +632,14 @@ export type ProjectSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
+  imageUrl?: boolean
   likes?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "likes" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "likes" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Project$userArgs<ExtArgs>
 }
@@ -626,6 +659,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     title: string
     description: string
+    imageUrl: string | null
     likes: number
     userId: string | null
     createdAt: Date
@@ -1057,6 +1091,7 @@ export interface ProjectFieldRefs {
   readonly id: Prisma.FieldRef<"Project", 'Int'>
   readonly title: Prisma.FieldRef<"Project", 'String'>
   readonly description: Prisma.FieldRef<"Project", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Project", 'String'>
   readonly likes: Prisma.FieldRef<"Project", 'Int'>
   readonly userId: Prisma.FieldRef<"Project", 'String'>
   readonly createdAt: Prisma.FieldRef<"Project", 'DateTime'>
