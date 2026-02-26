@@ -8,7 +8,7 @@ import { getUserByEmail } from "@/lib/users";
 
 const loginSchema = z.object({
   email: z.email("Email no es válido"),
-  password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres")
+  password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
 });
 
 function getFieldErrorsFromTree(
@@ -30,13 +30,16 @@ function hashPassword(plainPassword: string) {
   return plainPassword;
 }
 
-export async function loginAction(_prevState: LoginState, formData: FormData): Promise<LoginState> {
+export async function loginAction(
+  _prevState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
   const emailInput = String(formData.get("email"));
   const passwordInput = String(formData.get("password"));
 
   const parsed = loginSchema.safeParse({
     email: emailInput,
-    password: passwordInput
+    password: passwordInput,
   });
 
   if (!parsed.success) {
@@ -44,8 +47,8 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
       success: false,
       message: "Revisa los campos marcados",
       errors: getFieldErrorsFromTree(parsed.error),
-      values: { email: emailInput } // Esto evita que se limpie el input en el formulario
-    }
+      values: { email: emailInput }, // Esto evita que se limpie el input en el formulario
+    };
   }
 
   const email = parsed.data.email.toLowerCase();
@@ -57,13 +60,13 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
       success: false,
       message: "Credenciales incorrectas",
       errors: {},
-      values: { email: emailInput }
-    }
+      values: { email: emailInput },
+    };
   }
 
   const password = parsed.data.password;
 
-  // Aquí deberíamos hashear la contraseña
+  // Aquí deberíamos hashear la contraseña con bcrypt
   const passwordMatches = hashPassword(password);
 
   if (!passwordMatches) {
@@ -71,10 +74,10 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
       success: false,
       message: "Credenciales incorrectas",
       errors: {},
-      values: { email: emailInput }
-    }
+      values: { email: emailInput },
+    };
   }
 
   await createSession(user.id);
-  redirect("/dashboard")
+  redirect("/dashboard");
 }
